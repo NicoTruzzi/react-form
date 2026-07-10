@@ -1,27 +1,26 @@
 import { useState } from "react"
 
 function App() {
-  const [isSent, setIsSent] = useState(false);
-  const [text, setText] = useState("");
-  function handleSubmit(event) {
-    console.log(text);
+  const [promoCode, setPromoCode] = useState("");
+  const [message, setMessage] = useState("");
+  const handleSubmit = (event) => {
     event.preventDefault();
-    setIsSent(true);
+    if (promoCode === "SUMMER10") {
+      setMessage("codice valido")
+    }
+    else
+      setMessage("codice errato riprova")
   }
   return (
     <>
-      {
-        isSent ? (
-          <p>Grazie per esserti iscritto 😉​</p>
-        ) :
-          (
-            <form onSubmit={handleSubmit}>
-              <input type="email" style={{ width: "270px" }} placeholder="inserisci l'email per iscriverti alla newsletter" value={text} onChange={(event => (setText(event.target.value)))} />
-            </form>
-          )
-      }
+      <form onSubmit={handleSubmit}>
 
+        <input type="text" placeholder="inserisci il codice promo" value={promoCode} onChange={(event) => (setPromoCode(event.target.value))} />
+
+      </form>
+      {message && <p>{message}</p>}
     </>
+    //il paragrafo viene creato solo se c'è qualcosa dentro message
   )
 }
 
