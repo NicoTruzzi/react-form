@@ -16,7 +16,7 @@ function App() {
         ) :
           (
             <form onSubmit={handleSubmit}>
-              <input type="text" value={text} onChange={(event => (setText(event.target.value)))} />
+              <input type="email" style={{ width: "270px" }} placeholder="inserisci l'email per iscriverti alla newsletter" value={text} onChange={(event => (setText(event.target.value)))} />
             </form>
           )
       }
