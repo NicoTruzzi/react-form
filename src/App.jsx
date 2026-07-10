@@ -1,43 +1,40 @@
 import { useState } from "react"
 
 function App() {
-  const [voto, setVoto] = useState("");
-  const [comment, setComment] = useState("");
-  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [tariffa, setTariffa] = useState(50);
+  const [ore, setOre] = useState(2);
   const [message, setMessage] = useState("");
+  const [isSubmitted, setIsSubmitted] = useState(false);
   const handleSubmit = (event) => {
-    event.preventDefault()
-    const votoHandle = Number(voto);
-    if (votoHandle === 0 || comment.trim() === "") {
-      setMessage("inserisci tutti i campi per inviare");
-
+    event.preventDefault();
+    let totale = ore * tariffa;
+    if (ore <= 0 || tariffa <= 0) {
+      setMessage("la tariffa e le ore lavorative devono essere maggiori di 0")
       return;
     }
-    if (votoHandle < 4 && votoHandle > 0) {
-      setIsSubmitted(true);
-      setMessage("ci dispiace dobbiamo fare meglio")
-    } else {
-      setMessage("grazie per la recensione positiva")
-      setIsSubmitted(true);
+    if (ore > 4) {
+      totale = totale + 50;
     }
+    setMessage(`Il totale del preventivo è di ${totale}€`)
+    setIsSubmitted(true);
   }
+
   return (
     <>
       {
         !isSubmitted &&
         <form onSubmit={handleSubmit}>
-          <input type="text" value={comment} onChange={event => (setComment(event.target.value))} />
-          <input type="radio" name="votes" value="1" onChange={event => (setVoto(event.target.value))} />
-          <input type="radio" name="votes" value="2" onChange={event => (setVoto(event.target.value))} />
-          <input type="radio" name="votes" value="3" onChange={event => (setVoto(event.target.value))} />
-          <input type="radio" name="votes" value="4" onChange={event => (setVoto(event.target.value))} />
-          <input type="radio" name="votes" value="5" onChange={event => (setVoto(event.target.value))} />
+          <p>tariffa per ora <input type="number" name="tariffa" style={{ width: "30px" }} value={tariffa} onChange={event => setTariffa(Number(event.target.value))} /></p>
+
+          <p>ore di lavoro <input type="number" name="ore" style={{ width: "30px" }} value={ore} onChange={event => setOre(Number(event.target.value))} />
+          </p>
+          <button type="submit">invia preventivo</button>
         </form>
       }
-      {message &&
+      {
+        message &&
         <p>{message}</p>
       }
-
     </>
   )
 }
